@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codex Plan Detailed"
+  short_description: "Plan one bounded Codex change"
+  default_prompt: "Use $codex-plan-detailed to create an implementation plan for this bug fix."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codex Plan Phase"
+  short_description: "Create Codex lane plans for phases"
+  default_prompt: "Use $codex-plan-phase to plan phase P1 from the current roadmap."

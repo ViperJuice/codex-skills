@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codex Task Contextualizer"
+  short_description: "Write precise Codex subagent briefs"
+  default_prompt: "Use $codex-task-contextualizer to prepare worker prompts for these parallel lanes."

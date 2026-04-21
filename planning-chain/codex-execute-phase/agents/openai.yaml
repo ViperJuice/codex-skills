@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codex Execute Phase"
+  short_description: "Execute Codex phase lane plans"
+  default_prompt: "Use $codex-execute-phase to implement the latest phase plan."

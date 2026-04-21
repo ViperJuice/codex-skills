@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codex Phase Roadmap Builder"
+  short_description: "Plan multi-phase Codex roadmaps"
+  default_prompt: "Use $codex-phase-roadmap-builder to turn this architecture discussion into a phased roadmap."

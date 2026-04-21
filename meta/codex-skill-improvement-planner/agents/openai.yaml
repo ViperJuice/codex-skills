@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codex Skill Improvement Planner"
+  short_description: "Plan improvements from skill reflections"
+  default_prompt: "Use $codex-skill-improvement-planner to aggregate Codex skill reflections."

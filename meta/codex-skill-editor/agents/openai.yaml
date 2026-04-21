@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codex Skill Editor"
+  short_description: "Apply planned Codex skill edits"
+  default_prompt: "Use $codex-skill-editor to apply this Codex skill improvement plan."
