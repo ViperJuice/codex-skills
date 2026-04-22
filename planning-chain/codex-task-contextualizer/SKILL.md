@@ -86,7 +86,7 @@ For copy-ready variants, read `references/subagent-briefs.md`.
 
 ## Runtime State
 
-This skill normally writes no reflection or handoff. If a future workflow adds self-improvement state, follow `runtime-state.md` and use Codex paths only:
+This skill normally writes no reflection or handoff. If a future workflow adds self-improvement state, follow `codex-config/shared/runtime-state.md` and use Codex paths only:
 
 - Reflection: `~/.codex/skills/codex-task-contextualizer/reflections/<repo_hash>/<branch_slug>/<run_id>.md`
 - Handoff: `~/.codex/skills/codex-task-contextualizer/handoffs/<repo_hash>/<branch_slug>/<run_id>.md`

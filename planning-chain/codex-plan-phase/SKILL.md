@@ -31,7 +31,7 @@ If no roadmap path is explicit, first check the current repo and branch handoff 
 
 ## Workflow
 
-1. Resolve the roadmap and phase. If multiple phases match, ask the user to choose.
+1. Resolve the roadmap and phase. After resolving the roadmap path, obtain `git status --short -- <roadmap_path>`. If the roadmap is untracked, state that it is not protected from `git clean -fd` and carry that risk into final output and any handoff. If multiple phases match, ask the user to choose.
 2. Read the selected phase plus roadmap context, assumptions, DAG, and interface gates.
 3. Inspect the repo areas named by `Key files` and `Scope notes`; expand only as needed to identify existing patterns, tests, and shared ownership risks.
 4. Define interface freeze gates:
@@ -99,7 +99,9 @@ Use these headings:
 
 ## Closeout
 
-In Default mode, write the plan with `apply_patch` and report the plan path plus the recommended `codex-execute-phase` invocation. Do not commit unless requested.
+In Default mode, write the plan with `apply_patch`, then run `git status --short -- <plan_path>` and report the plan tracking state next to the recommended `codex-execute-phase <plan_path>` invocation. If the plan is untracked, state that it is not protected from `git clean -fd` and ask whether to stage it with `git add <plan_path>` before recommending execution, unless the user already forbade staging. If it remains unstaged, include this final-output and handoff warning: `Do not run git clean -fd before preserving this plan.`
+
+When the generated plan is ready to execute, explicitly recommend `codex-execute-phase` as the next skill and include the plan artifact path plus the recommended invocation. If execution should not start yet, state the blocking condition, such as unacknowledged untracked-artifact risk, unresolved interface ambiguity, or missing user approval. Do not commit unless requested.
 
 If writing self-improvement state, follow `codex-config/shared/runtime-state.md` and use Codex paths only:
 

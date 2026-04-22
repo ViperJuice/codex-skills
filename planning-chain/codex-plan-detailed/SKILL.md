@@ -87,7 +87,7 @@ Do not run the verification commands while planning unless the user explicitly a
 
 If writing an artifact, use `apply_patch`, report the path, and do not commit unless requested.
 
-If writing self-improvement state, follow `runtime-state.md` and use Codex paths only:
+If writing self-improvement state, follow `codex-config/shared/runtime-state.md` and use Codex paths only:
 
 - Reflection: `~/.codex/skills/codex-plan-detailed/reflections/<repo_hash>/<branch_slug>/<run_id>.md`
 - Handoff: `~/.codex/skills/codex-plan-detailed/handoffs/<repo_hash>/<branch_slug>/<run_id>.md`

@@ -35,6 +35,10 @@ Default install target: `$HOME/.codex/skills`.
 
 These framework-specific skills are intentionally not installed into `~/.agents/skills`. That directory should be reserved for future skills that are genuinely platform-neutral.
 
+## Permission settings
+
+Dotfiles manages Codex runtime write access in `bootstrap.sh` by merging additional `sandbox_workspace_write.writable_roots` into `$HOME/.codex/config.toml`. Keep that scope limited to `$HOME/.codex/skills` and the dotfiles `codex-config/skills` symlink target so generated `reflections/`, `handoffs/`, and `plans/` can be written without broadening Codex approval policy or granting repository-wide write access.
+
 ## Style
 
 Keep instructions directive-first. Avoid long narrative justification, war stories, or benchmark claims. If behavior differs between frameworks, do not hide that behind a generic skill; make an explicit framework-specific port.

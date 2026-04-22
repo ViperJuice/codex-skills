@@ -52,6 +52,8 @@ Builds a multi-phase roadmap that downstream `codex-plan-phase` can turn into im
    - end-to-end `Verification` commands.
 6. Validate manually:
    - stable headings are present;
+   - implementation units use `## Phases` and `### Phase N — <Name> (<ALIAS>)` consistently;
+   - implementation-unit headings and suggested next commands do not use `Step`, `Slice`, `Stage`, `Phase Flow`, or other non-phase synonyms unless the user explicitly requested a different taxonomy;
    - aliases are unique;
    - dependency graph is acyclic;
    - every produced gate has a producing phase;
@@ -106,9 +108,11 @@ Use this shape so `codex-plan-phase` can parse it:
 
 ## Closeout
 
-In Default mode, write the roadmap with `apply_patch`, then report the artifact path and the next suggested `codex-plan-phase` invocation. Do not commit unless the user asked for a commit.
+In Default mode, write the roadmap with `apply_patch`, then run `git status --short -- <artifact>` and report the artifact path plus its tracking state. If the artifact is untracked, state that it is not protected from `git clean -fd` and ask whether to stage it with `git add <artifact>` before recommending dependent planning, unless the user already forbade staging. If it remains unstaged, include a handoff warning naming the artifact and saying not to run `git clean -fd` until it is preserved.
 
-If writing self-improvement state, follow `runtime-state.md` and use Codex paths only:
+When at least one phase is ready to plan, explicitly recommend `codex-plan-phase` as the next skill, include the roadmap artifact path, and provide a concrete phase selector or explain which phase should be planned first. If no phase should be planned next, state the blocking decision or missing input. Do not commit unless the user asked for a commit.
+
+If writing self-improvement state, follow `codex-config/shared/runtime-state.md` and use Codex paths only:
 
 - Reflection: `~/.codex/skills/codex-phase-roadmap-builder/reflections/<repo_hash>/<branch_slug>/<run_id>.md`
 - Handoff: `~/.codex/skills/codex-phase-roadmap-builder/handoffs/<repo_hash>/<branch_slug>/<run_id>.md`

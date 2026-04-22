@@ -29,18 +29,19 @@ If no plan path is explicit, first check the current repo and branch handoff fro
 
 1. Resolve repo root and plan path.
 2. Run `git status --short`.
-3. If the tree has unrelated dirty files, leave them alone and scope edits around them.
-4. Parse:
+3. Run `git status --short -- <plan_path>` and classify the plan as tracked, modified, or untracked. If untracked, warn before editing or executing: `This execution input is untracked and can be deleted by git clean -fd.`
+4. If the tree has unrelated dirty files, leave them alone and scope edits around them.
+5. Parse:
    - interface gates;
    - lane DAG;
    - owned files;
    - task lists;
    - verification commands.
-5. Validate producer dependencies:
+6. Validate producer dependencies:
    - any lane that consumes another lane's findings, interfaces, or artifacts must list that producer lane in `Depends on`;
    - any lane that writes a synthesized artifact must be downstream of every producer lane it summarizes;
    - if dependencies are missing, stop and require a plan correction before execution.
-6. For `--dry-run`, report the topological lane order and stop.
+7. For `--dry-run`, report the topological lane order and stop.
 
 ## Execution Workflow
 
@@ -83,10 +84,13 @@ The main thread remains responsible for integrating results, reviewing diffs, ru
 
 ## Closeout
 
+If execution updates the plan or roadmap, run `git status --short -- <plan_path> <roadmap_path>` before final closeout. Report the tracking state for every consumed or updated planning artifact. If any planning artifact is untracked, ask whether to stage it with `git add` or record an explicit `untracked artifact risk` in the handoff. Do not describe execution as safely closed out while the only execution record is untracked.
+
 Report:
 
 - lanes completed;
 - files changed;
+- planning artifact tracking state;
 - verification commands and results;
 - commands not run and why;
 - follow-up risks or manual checks.
