@@ -99,9 +99,9 @@ Use these headings:
 
 ## Closeout
 
-In Default mode, write the plan with `apply_patch`, then run `git status --short -- <plan_path>` and report the plan tracking state next to the recommended `codex-execute-phase <plan_path>` invocation. If the plan is untracked, state that it is not protected from `git clean -fd` and ask whether to stage it with `git add <plan_path>` before recommending execution, unless the user already forbade staging. If it remains unstaged, include this final-output and handoff warning: `Do not run git clean -fd before preserving this plan.`
+In Default mode, write the plan with `apply_patch`, then run `git status --short -- <plan_path>`. If the plan is untracked or modified and the user did not explicitly forbid staging, run `git add <plan_path>` and include the `_reviews.md` sibling if one was produced. Rerun `git status --short -- <plan_path>` and report `Artifact state: staged|tracked|modified|unstaged|blocked`. Do not commit unless requested.
 
-When the generated plan is ready to execute, explicitly recommend `codex-execute-phase` as the next skill and include the plan artifact path plus the recommended invocation. If execution should not start yet, state the blocking condition, such as unacknowledged untracked-artifact risk, unresolved interface ambiguity, or missing user approval. Do not commit unless requested.
+When the generated plan is ready to execute, report `Next phase: <alias> - execution ready` and `Next command: codex-execute-phase <plan_path>`. If execution should not start yet, report `Next phase: <alias> - blocked: <reason>` and `Next command: none - <reason>`.
 
 If writing self-improvement state, follow `codex-config/shared/runtime-state.md` and use Codex paths only:
 
@@ -109,4 +109,4 @@ If writing self-improvement state, follow `codex-config/shared/runtime-state.md`
 - Handoff: `~/.codex/skills/codex-plan-phase/handoffs/<repo_hash>/<branch_slug>/<run_id>.md`
 - Latest handoff pointer: `~/.codex/skills/codex-plan-phase/handoffs/<repo_hash>/<branch_slug>/latest.md`
 
-Handoff frontmatter must include `from: codex-plan-phase`, `timestamp:`, `repo:`, `repo_root:`, `branch:`, `branch_slug:`, `commit:`, `run_id:`, and `artifact:`. Update `latest.md` with the same handoff content.
+Handoff frontmatter must include `from: codex-plan-phase`, `timestamp:`, `repo:`, `repo_root:`, `branch:`, `branch_slug:`, `commit:`, `run_id:`, `artifact:`, `artifact_state:`, `next_skill:`, `next_command:`, and `next_phase:`. Update `latest.md` with the same handoff content.

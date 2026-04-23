@@ -108,9 +108,9 @@ Use this shape so `codex-plan-phase` can parse it:
 
 ## Closeout
 
-In Default mode, write the roadmap with `apply_patch`, then run `git status --short -- <artifact>` and report the artifact path plus its tracking state. If the artifact is untracked, state that it is not protected from `git clean -fd` and ask whether to stage it with `git add <artifact>` before recommending dependent planning, unless the user already forbade staging. If it remains unstaged, include a handoff warning naming the artifact and saying not to run `git clean -fd` until it is preserved.
+In Default mode, write the roadmap with `apply_patch`, then run `git status --short -- <artifact>`. If the artifact is untracked or modified and the user did not explicitly forbid staging, run `git add <artifact>` and include the `_reviews.md` sibling if one was produced. Rerun `git status --short -- <artifact>` and report `Artifact state: staged|tracked|modified|unstaged|blocked`. Do not commit unless the user asked for a commit.
 
-When at least one phase is ready to plan, explicitly recommend `codex-plan-phase` as the next skill, include the roadmap artifact path, and provide a concrete phase selector or explain which phase should be planned first. If no phase should be planned next, state the blocking decision or missing input. Do not commit unless the user asked for a commit.
+Before final response and handoff, choose the next phase to plan from the roadmap DAG. If at least one phase is ready, report `Next phase: <alias> - <phase name>` and `Next command: codex-plan-phase <artifact> <alias>`. If no phase should be planned next, report `Next phase: none - <reason>` and `Next command: none - <reason>`.
 
 If writing self-improvement state, follow `codex-config/shared/runtime-state.md` and use Codex paths only:
 
@@ -118,4 +118,4 @@ If writing self-improvement state, follow `codex-config/shared/runtime-state.md`
 - Handoff: `~/.codex/skills/codex-phase-roadmap-builder/handoffs/<repo_hash>/<branch_slug>/<run_id>.md`
 - Latest handoff pointer: `~/.codex/skills/codex-phase-roadmap-builder/handoffs/<repo_hash>/<branch_slug>/latest.md`
 
-Handoff frontmatter must include `from: codex-phase-roadmap-builder`, `timestamp:`, `repo:`, `repo_root:`, `branch:`, `branch_slug:`, `commit:`, `run_id:`, and `artifact:`. Update `latest.md` with the same handoff content.
+Handoff frontmatter must include `from: codex-phase-roadmap-builder`, `timestamp:`, `repo:`, `repo_root:`, `branch:`, `branch_slug:`, `commit:`, `run_id:`, `artifact:`, `artifact_state:`, `next_skill:`, `next_command:`, and `next_phase:`. Update `latest.md` with the same handoff content.
