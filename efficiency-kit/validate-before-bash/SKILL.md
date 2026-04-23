@@ -17,13 +17,33 @@ NOT needed for: `ls`, `git status`, `cat`, `grep`, or other basic commands.
 
 ## Quick Start
 
+Resolve the helper from the installed skill directory, not from the current repo. Do not report a missing repo-local `scripts/preflight.sh` as a validation failure.
+
 ```bash
-bash scripts/preflight.sh [auto|typescript|python|dart|rust]
+MODE="${1:-auto}"  # auto, typescript, python, dart, or rust
+PREFLIGHT=""
+for skill_dir in \
+  "$HOME/.codex/skills/validate-before-bash" \
+  "$HOME/.claude/skills/validate-before-bash" \
+  "$HOME/.gemini/skills/validate-before-bash" \
+  "$HOME/.config/opencode/skills/validate-before-bash"; do
+  if [ -f "$skill_dir/scripts/preflight.sh" ]; then
+    PREFLIGHT="$skill_dir/scripts/preflight.sh"
+    break
+  fi
+done
+
+if [ -n "$PREFLIGHT" ]; then
+  bash "$PREFLIGHT" "$MODE"
+else
+  echo "validate-before-bash helper not installed; perform manual tool/config/dependency checks."
+fi
 ```
 
 - `auto` mode (default): detects language from config files in the current directory
 - Output is JSON: `{"ready": true/false, "language": "...", "issues": [...]}`
 - Exit 0 if ready, exit 1 if issues found
+- If the helper is not installed, do the manual checks below and list the helper under "commands not run and why"; this alone is not a build or implementation failure.
 
 ## What It Checks
 
@@ -39,6 +59,8 @@ If the script reports issues:
 1. Fix each issue before running the build command
 2. Common fixes: `npm install`, `pip install -e .`, `dart pub get`, `cargo fetch`
 3. If the tool isn't installed, tell the user — don't try to install system tools without asking
+
+If the script itself cannot be found, manually check the relevant command, config file, and dependency directory for the project language. When the requested build/test verification passes, do not mark the task failed only because this optional helper was unavailable.
 
 ## Reference
 

@@ -7,8 +7,26 @@ description: "One-pass environment detection for development tools. Use at the s
 
 Run the probe script at session start or when `command not found` occurs:
 
+Resolve the helper from the installed skill directory, not from the current repo. Do not look for repo-local `scripts/env-probe.sh` unless the repo explicitly provides its own.
+
 ```bash
-bash scripts/env-probe.sh
+ENV_PROBE=""
+for skill_dir in \
+  "$HOME/.codex/skills/detect-environment" \
+  "$HOME/.claude/skills/detect-environment" \
+  "$HOME/.gemini/skills/detect-environment" \
+  "$HOME/.config/opencode/skills/detect-environment"; do
+  if [ -f "$skill_dir/scripts/env-probe.sh" ]; then
+    ENV_PROBE="$skill_dir/scripts/env-probe.sh"
+    break
+  fi
+done
+
+if [ -n "$ENV_PROBE" ]; then
+  bash "$ENV_PROBE"
+else
+  echo "detect-environment helper not installed; use command -v and version checks manually."
+fi
 ```
 
 ## Output
@@ -37,3 +55,4 @@ JSON object with detected tools and their paths. Example:
 - `null` means the tool is not installed — don't try to use it
 - Re-run after installing tools, switching project directories, or activating a virtual environment
 - The script always exits 0 — missing tools are reported as null, not errors
+- If the helper is not installed, perform equivalent manual `command -v` and version checks. Missing this optional helper is not itself a task failure.

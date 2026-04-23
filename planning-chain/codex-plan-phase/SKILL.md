@@ -9,6 +9,7 @@ Plans one roadmap phase for Codex execution. It converts a phase section into in
 
 ## Core Rules
 
+- Effort guidance: phase planning benefits from `high` or `xhigh` reasoning, but this skill must not block or restart solely because the current Codex TUI effort is lower. Record effort-sensitive risk in the plan if the available context or reasoning depth was insufficient.
 - In Plan Mode, do not write repo artifacts; return a complete `<proposed_plan>`.
 - In Default mode, writing `plans/phase-plan-<version>-<alias>.md` is allowed when the user asked to create the plan.
 - In planning-only runs, do not execute tests, builds, formatters, generators, migrations, or verification commands. List them in the lane plan instead. Run validation only when the user explicitly asks for it.
@@ -101,7 +102,7 @@ Use these headings:
 
 In Default mode, write the plan with `apply_patch`, then run `git status --short -- <plan_path>`. If the plan is untracked or modified and the user did not explicitly forbid staging, run `git add <plan_path>` and include the `_reviews.md` sibling if one was produced. Rerun `git status --short -- <plan_path>` and report `Artifact state: staged|tracked|modified|unstaged|blocked`. Do not commit unless requested.
 
-When the generated plan is ready to execute, report `Next phase: <alias> - execution ready` and `Next command: codex-execute-phase <plan_path>`. If execution should not start yet, report `Next phase: <alias> - blocked: <reason>` and `Next command: none - <reason>`.
+When the generated plan is ready to execute, report `Next phase: <alias> - execution ready` and `Next command: codex-execute-phase <plan_path>`. Also report `Recommended effort: medium for execution, but current high/xhigh effort is acceptable; do not block execution for effort mismatch.` If execution should not start yet, report `Next phase: <alias> - blocked: <reason>` and `Next command: none - <reason>`.
 
 If writing self-improvement state, follow `codex-config/shared/runtime-state.md` and use Codex paths only:
 

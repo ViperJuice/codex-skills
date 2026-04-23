@@ -9,6 +9,7 @@ Executes a phase plan produced by `codex-plan-phase`. The default executor is th
 
 ## Core Rules
 
+- Effort guidance: `medium` is the cost/latency recommendation for implementation, but `high` or `xhigh` in an existing Codex TUI session is acceptable. Do not block, restart, or mark execution risky solely because the current effort is higher than medium.
 - Read the full phase plan before editing.
 - Preserve user work. Never revert changes you did not make.
 - Use `apply_patch` for manual edits.
@@ -81,6 +82,7 @@ The main thread remains responsible for integrating results, reviewing diffs, ru
 - Ownership violation: stop and revise the plan before continuing.
 - Missing dependency or unclear interface: stop and ask for clarification or update the plan.
 - Verification command unavailable: report the missing tool and run the closest available static check only if it is meaningful.
+- Optional helper unavailable, such as `validate-before-bash` or `detect-environment`: report it under "commands not run and why" and perform equivalent manual checks when possible. Do not mark implementation failed solely because a helper script was unavailable if the phase's requested verification commands passed.
 
 ## Closeout
 
@@ -93,6 +95,8 @@ Determine the next step before final response and handoff:
 - If the roadmap has an unplanned ready phase, report `Next phase: <next alias> - planning ready` and `Next command: codex-plan-phase <roadmap_path> <next_alias>`.
 - If the roadmap needs extension, report `Next phase: none - roadmap extension needed` and `Next command: codex-phase-roadmap-builder <roadmap_path>`.
 - If all phases are complete, report `Next phase: none - roadmap complete` and `Next command: none - roadmap complete`.
+
+When the next step is implementation, report `Recommended effort: medium, but current high/xhigh effort is acceptable.` When the next step is roadmap or phase planning, report `Recommended effort: high or xhigh for planning; current effort is acceptable if the user keeps the TUI session as-is.`
 
 Report:
 

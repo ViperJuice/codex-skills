@@ -9,6 +9,7 @@ Builds a multi-phase roadmap that downstream `codex-plan-phase` can turn into im
 
 ## Core Rules
 
+- Effort guidance: roadmap planning benefits from `high` or `xhigh` reasoning, but this skill must not block or restart solely because the current Codex TUI effort is lower. Record effort-sensitive risk in the roadmap if the available context or reasoning depth was insufficient.
 - Preserve Plan Mode boundaries. In Plan Mode, inspect files and produce a `<proposed_plan>` roadmap only; do not create or edit repo-tracked files.
 - In Default mode, write the roadmap artifact only after enough context is available.
 - During planning-only roadmap creation, do not execute test suites, builds, formatters, generators, or migrations. Capture end-to-end verification commands in the roadmap without running them.
@@ -110,7 +111,7 @@ Use this shape so `codex-plan-phase` can parse it:
 
 In Default mode, write the roadmap with `apply_patch`, then run `git status --short -- <artifact>`. If the artifact is untracked or modified and the user did not explicitly forbid staging, run `git add <artifact>` and include the `_reviews.md` sibling if one was produced. Rerun `git status --short -- <artifact>` and report `Artifact state: staged|tracked|modified|unstaged|blocked`. Do not commit unless the user asked for a commit.
 
-Before final response and handoff, choose the next phase to plan from the roadmap DAG. If at least one phase is ready, report `Next phase: <alias> - <phase name>` and `Next command: codex-plan-phase <artifact> <alias>`. If no phase should be planned next, report `Next phase: none - <reason>` and `Next command: none - <reason>`.
+Before final response and handoff, choose the next phase to plan from the roadmap DAG. If at least one phase is ready, report `Next phase: <alias> - <phase name>` and `Next command: codex-plan-phase <artifact> <alias>`. Also report `Recommended effort: high or xhigh for planning; current effort is acceptable if the user keeps the TUI session as-is.` If no phase should be planned next, report `Next phase: none - <reason>` and `Next command: none - <reason>`.
 
 If writing self-improvement state, follow `codex-config/shared/runtime-state.md` and use Codex paths only:
 
